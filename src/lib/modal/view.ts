@@ -52,7 +52,7 @@ export const createModal = async (props: {
     })
     .filter((p) => p !== undefined);
 
-  const phoneNumberRegex = `^(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]\d{3}[\s.-]\d{4}$`;
+  const phoneNumberRegex = `^\\s*(?:\\+?(\\d{1,3}))?[-. (]*(\\d{3})[-. )]*(\\d{3})[-. ]*(\\d{4})(?: *x(\\d+))?\\s*$`;
   const emailRegex = `^([a-zA-Z0-9_.-])+(\+[a-zA-Z0-9-]+)?@(([a-zA-Z0-9-])+.)+([a-zA-Z0-9]{2,4})`;
 
   // MODAL HTML
