@@ -52,7 +52,7 @@ export const createModal = async (props: {
     })
     .filter((p) => p !== undefined);
 
-  const phoneNumberRegex = `^\\s*(?:\\+?(\\d{1,3}))?[-. (]*(\\d{3})[-. )]*(\\d{3})[-. ]*(\\d{4})(?: *x(\\d+))?\\s*$`;
+  const phoneNumberRegex = `(\\+|00)[0-9]{1,3}[0-9]{4,14}(?:x.+)?$`;
   const emailRegex = `^([a-zA-Z0-9_.-])+(\+[a-zA-Z0-9-]+)?@(([a-zA-Z0-9-])+.)+([a-zA-Z0-9]{2,4})`;
 
   // MODAL HTML
@@ -74,7 +74,7 @@ export const createModal = async (props: {
             props.isSMSLoginEnabled && props.isEmailLoginEnabled
               ? `
                <label class="Magic__FormLabel">Sign-in with Phone or Email</label>
-               <input class="Magic__formInput" id="MagicFormInput" required pattern = "${emailRegex}|${phoneNumberRegex}" placeholder="Phone or Email" />
+               <input class="Magic__formInput" id="MagicFormInput" required pattern = "${emailRegex}|${phoneNumberRegex}" placeholder="Phone (include +1) or Email" />
                `
               : props.isEmailLoginEnabled
               ? `
@@ -175,7 +175,15 @@ export const createModal = async (props: {
       const formInputField = document.getElementById(
         'MagicFormInput'
       ) as HTMLInputElement;
+
+      // A small hack to enforce +1 country code... TODO: fix when multinational :)
+      const splice = formInputField.value.substring(0,1)
+      if (splice != '+') {
+        formInputField.value = '+1' + formInputField.value
+      }
+
       const isFormValid = formInputField?.checkValidity();
+
       if (isFormValid) {
         let output;
         if (RegExp(phoneNumberRegex).test(formInputField.value)) {
