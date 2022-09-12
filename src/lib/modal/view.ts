@@ -176,11 +176,11 @@ export const createModal = async (props: {
         'MagicFormInput'
       ) as HTMLInputElement;
 
-      // A small hack to enforce +1 country code... TODO: fix when multinational :)
+      /*// A small hack to enforce +1 country code... TODO: fix when multinational :)
       const splice = formInputField.value.substring(0,1)
       if (splice != '+') {
         formInputField.value = '+1' + formInputField.value
-      }
+      }*/
 
       const isFormValid = formInputField?.checkValidity();
 
